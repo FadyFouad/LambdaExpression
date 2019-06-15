@@ -1,7 +1,6 @@
 package com.etaTech;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class Main {
 //        Collections.sort(employeeLis,(Employee e1,Employee e2)->
 //                e1.getName().compareTo(e2.getName()));
 
-        Collections.sort(employeeLis, Comparator.comparing(Employee::getName));
+        employeeLis.sort(Comparator.comparing(Employee::getName));
 
 
         for (Employee employee :
@@ -59,14 +58,22 @@ public class Main {
 //            }
 //        },employeeLis.get(0).getName(),employeeLis.get(1).getName());
 
-        String s = doStringStuff(((s1,s2)->s1.toUpperCase()+", "+s2.toUpperCase()),employeeLis.get(0).getName(),employeeLis.get(1).getName());
+//        String s = doStringStuff(((s1,s2)->s1.toUpperCase()+", "+s2.toUpperCase()),employeeLis.get(0).getName(),employeeLis.get(1).getName());
+        String s = doStringStuff(((s1,s2)->{
+            String s3 = s1.toUpperCase()+", "+s2.toUpperCase();
+            return s3;
+        }),employeeLis.get(0).getName(),employeeLis.get(1).getName());
 
 //        IUpperConcat concat = ((s1,s2)-> s1.toUpperCase()+", "+s2.toUpperCase());
 //        String s = doStringStuff(concat,employee1.getName(),employee2.getName());
         System.out.println(s);
 
+        TestClass testClass = new TestClass();
+        String str = testClass.doSomting();
+        System.out.println(str);
+
     }
-    private static String doStringStuff(IUpperConcat concat, String s1, String s2){
+    public static String doStringStuff(IUpperConcat concat, String s1, String s2){
         return concat.upperAndConcat(s1,s2);
     }
 }
@@ -98,4 +105,10 @@ class Employee{
 
 interface IUpperConcat{
     String upperAndConcat(String s1 , String s2);
+}
+
+class TestClass{
+    String doSomting(){
+        return Main.doStringStuff((String s1, String s2)->s1+" "+s2,"S1"," S2");
+    }
 }
