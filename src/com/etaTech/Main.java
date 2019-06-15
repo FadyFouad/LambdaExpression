@@ -28,12 +28,22 @@ public class Main {
 
         for (Employee employee :
                 employeeLis) {
-            System.out.println(employee.getAge());
+            System.out.println(employee.getName());
+            new Thread(()-> System.out.println(employee.getAge())).start();
+        }
+        System.out.println("----------------------------------");
+//        Employee employee ;
+        for (int i = 0; i < employeeLis.size(); i++) {
+            Employee employee = employeeLis.get(i);
+            System.out.println(employee.getName());
+            new Thread(()-> System.out.println(employee.getAge())).start();
+
         }
 
         TestClass testClass = new TestClass();
         String str = testClass.doSomting();
         System.out.println(str);
+        testClass.printValue();
 
     }
 
@@ -68,5 +78,19 @@ class TestClass {
             System.out.println("Anon Class Name : " + getClass().getSimpleName());
             return s1 + " " + s2;
         });
+    }
+
+    void printValue(){
+        int i;
+        i = 0;
+        Runnable runnable = () -> {
+            try{
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Value = "+i);
+        };
+        new Thread(runnable).start();
     }
 }
