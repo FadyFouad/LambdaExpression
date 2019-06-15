@@ -1,6 +1,7 @@
 package com.etaTech;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,10 +12,15 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("\n-------------------------Lambdas-------------------\n");
 
-        new Thread(()-> {
-            System.out.println("Lambda Thread ");
-            System.out.println("Lambda Thread again");
-         }).start();
+//        new Thread(()-> System.out.println("\nOne Line Lambda "+Thread.currentThread().getName())).start();
+//
+//        new Thread(()-> {
+//            System.out.println(Thread.currentThread().getName());
+//            System.out.println("Lambda Thread ");
+//            System.out.println("Lambda Thread again");
+//         }).start();
+
+
 
         Employee employee3 = new Employee("Fady3",27);
         Employee employee1 = new Employee("Fady1",23);
@@ -26,13 +32,42 @@ public class Main {
         employeeLis.add(employee3);
 
 //        employeeLis.sort(Comparator.comparing(Employee::getName));
-        employeeLis.sort(Comparator.comparing(Employee::getAge));
+//        employeeLis.sort(Comparator.comparing(Employee::getAge));
+
+//        Collections.sort(employeeLis, new Comparator<Employee>() {
+//            @Override
+//            public int compare(Employee o1, Employee o2) {
+//                return o1.getName().compareTo(o2.getName());
+//            }
+//        });
+
+//        Collections.sort(employeeLis,(Employee e1,Employee e2)->
+//                e1.getName().compareTo(e2.getName()));
+
+        Collections.sort(employeeLis, Comparator.comparing(Employee::getName));
+
 
         for (Employee employee :
                 employeeLis) {
-            System.out.println(employee.getName());
+            System.out.println(employee.getAge());
         }
 
+//        String s = doStringStuff(new IUpperConcat() {
+//            @Override
+//            public String upperAndConcat(String s1, String s2) {
+//                return s1.toUpperCase()+", "+s2.toUpperCase();
+//            }
+//        },employeeLis.get(0).getName(),employeeLis.get(1).getName());
+
+        String s = doStringStuff(((s1,s2)->s1.toUpperCase()+", "+s2.toUpperCase()),employeeLis.get(0).getName(),employeeLis.get(1).getName());
+
+//        IUpperConcat concat = ((s1,s2)-> s1.toUpperCase()+", "+s2.toUpperCase());
+//        String s = doStringStuff(concat,employee1.getName(),employee2.getName());
+        System.out.println(s);
+
+    }
+    private static String doStringStuff(IUpperConcat concat, String s1, String s2){
+        return concat.upperAndConcat(s1,s2);
     }
 }
 class Employee{
@@ -59,4 +94,8 @@ class Employee{
 //    void setAge(int age) {
 //        this.age = age;
 //    }
+}
+
+interface IUpperConcat{
+    String upperAndConcat(String s1 , String s2);
 }
